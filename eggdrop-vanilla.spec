@@ -3,7 +3,7 @@ Summary:	Eggdrop is an IRC bot, written in C
 Summary(pl.UTF-8):	Eggdrop jest botem IRC napisanym w C
 Name:		eggdrop-vanilla
 Version:	1.6.19
-Release:	1
+Release:	2
 License:	GPL v2
 Group:		Applications/Communications
 Source0:	ftp://ftp.eggheads.org/pub/eggdrop/source/1.6/%{_name}%{version}.tar.bz2
@@ -54,7 +54,7 @@ skrypty dla rozrywki.
 %build
 mv aclocal.m4 acinclude.m4
 cp -f /usr/share/automake/config.sub misc/
-cp -f %{_name}.conf doc/
+cp -f %{_name}.conf doc/%{_name}.conf.example
 %{__aclocal}
 %{__autoheader}
 %{__autoconf}
@@ -80,7 +80,7 @@ mv $RPM_BUILD_ROOT/%{_name}-%{version} $RPM_BUILD_ROOT%{_bindir}/%{_name}
 mv -f $RPM_BUILD_ROOT{/{text/*,help,scripts,language},%{_datadir}/%{_name}/}
 mv -f $RPM_BUILD_ROOT/modules/* $RPM_BUILD_ROOT%{_libdir}/%{_name}/modules/
 mv -f $RPM_BUILD_ROOT{/doc,%{_mandir}}/man1/%{_name}.1
-rm -rf $RPM_BUILD_ROOT/{doc,README,logs}
+rm -rf $RPM_BUILD_ROOT/{doc,README,logs,eggdrop.conf}
 
 rm -rf docs
 cp -a doc docs
