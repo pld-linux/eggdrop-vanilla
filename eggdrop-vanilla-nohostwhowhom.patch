@@ -1,0 +1,91 @@
+From http://www.egghelp.org/files/patches/nohostwhowhom1.6.17.desc:
+
+"With this patch, eggdrop won't send hosts upon joining the botnet or
+ on a remote who."
+
+Patch created by BarkerJr <http://barkerjr.net/irc/eggdrop/>
+
+diff -ur eggdrop1.6.17/src/botcmd.c eggdrop1.6.17.new/src/botcmd.c
+--- eggdrop1.6.17/src/botcmd.c	2004-09-06 15:35:37.000000000 -0400
++++ eggdrop1.6.17.new/src/botcmd.c	2004-09-06 15:44:57.000000000 -0400
+@@ -357,8 +357,8 @@
+   for (i = 0; i < dcc_total; i++)
+     if (dcc[i].type->flags & DCT_REMOTEWHO)
+       if (dcc[i].u.chat->channel == chan) {
+-        k = sprintf(s, "  %c%-15s %s", (geticon(i) == '-' ? ' ' : geticon(i)),
+-                    dcc[i].nick, dcc[i].host);
++        k = sprintf(s, "  %c%-15s hidden",
++                    (geticon(i) == '-' ? ' ' : geticon(i)), dcc[i].nick);
+         if (now - dcc[i].timeval > 300) {
+           unsigned long days, hrs, mins;
+ 
+@@ -397,8 +397,8 @@
+           ok = 1;
+           botnet_send_priv(idx, botnetnick, nick, NULL, "%s:", BOT_OTHERPEOPLE);
+         }
+-        l = sprintf(s, "  %c%-15s %s", (geticon(i) == '-' ? ' ' : geticon(i)),
+-                    dcc[i].nick, dcc[i].host);
++        l = sprintf(s, "  %c%-15s hidden",
++                    (geticon(i) == '-' ? ' ' : geticon(i)), dcc[i].nick);
+         if (now - dcc[i].timeval > 300) {
+           k = (now - dcc[i].timeval) / 60;
+           if (k < 60)
+diff -ur eggdrop1.6.17/src/botmsg.c eggdrop1.6.17.new/src/botmsg.c
+--- eggdrop1.6.17/src/botmsg.c	2004-09-06 15:35:37.000000000 -0400
++++ eggdrop1.6.17.new/src/botmsg.c	2004-09-06 15:35:57.000000000 -0400
+@@ -611,15 +611,15 @@
+   int l;
+ 
+   if (tands > 0) {
+-    l = simple_sprintf(OBUF, "j %s %s %D %c%D %s\n",
++    l = simple_sprintf(OBUF, "j %s %s %D %c%D hidden\n",
+                        botnetnick, dcc[useridx].nick,
+                        dcc[useridx].u.chat->channel, geticon(useridx),
+-                       dcc[useridx].sock, dcc[useridx].host);
++                       dcc[useridx].sock);
+     send_tand_but(-1, OBUF, -l);
+ #ifndef NO_OLD_BOTNET
+-    tandout_but(-1, "join %s %s %d %c%d %s\n", botnetnick,
++    tandout_but(-1, "join %s %s %d %c%d hidden\n", botnetnick,
+                 dcc[useridx].nick, dcc[useridx].u.chat->channel,
+-                geticon(useridx), dcc[useridx].sock, dcc[useridx].host);
++                geticon(useridx), dcc[useridx].sock);
+     tandout_but(-1, "chan %s %d %s %s %s.\n",
+                 botnetnick, dcc[useridx].u.chat->channel,
+                 dcc[useridx].nick, NET_JOINEDTHE,
+diff -ur eggdrop1.6.17/src/botnet.c eggdrop1.6.17.new/src/botnet.c
+--- eggdrop1.6.17/src/botnet.c	2004-09-06 15:35:37.000000000 -0400
++++ eggdrop1.6.17.new/src/botnet.c	2004-09-06 15:35:57.000000000 -0400
+@@ -752,16 +752,16 @@
+             (dcc[i].u.chat->channel < GLOBAL_CHANS)) {
+ #ifndef NO_OLD_BOTNET
+           if (b_numver(z) < NEAT_BOTNET)
+-            l = simple_sprintf(x, "join %s %s %d %c%d %s\n",
++            l = simple_sprintf(x, "join %s %s %d %c%d hidden\n",
+                                botnetnick, dcc[i].nick,
+                                dcc[i].u.chat->channel, geticon(i),
+-                               dcc[i].sock, dcc[i].host);
++                               dcc[i].sock);
+           else
+ #endif
+-            l = simple_sprintf(x, "j !%s %s %D %c%D %s\n",
++            l = simple_sprintf(x, "j !%s %s %D %c%D hidden\n",
+                                botnetnick, dcc[i].nick,
+                                dcc[i].u.chat->channel, geticon(i),
+-                               dcc[i].sock, dcc[i].host);
++                               dcc[i].sock);
+           tputs(dcc[z].sock, x, l);
+ #ifndef NO_OLD_BOTNET
+           if (b_numver(z) < NEAT_BOTNET) {
+diff -ur eggdrop1.6.17/src/patch.h eggdrop1.6.17.new/src/patch.h
+--- eggdrop1.6.17/src/patch.h	2004-09-06 15:35:37.000000000 -0400
++++ eggdrop1.6.17.new/src/patch.h	2004-09-06 15:36:26.000000000 -0400
+@@ -36,7 +36,7 @@
+  *
+  *
+  */
+-/* PATCH GOES HERE */
++patch("nohostwhowhom");
+ /*
+  *
+  *

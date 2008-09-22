@@ -1,0 +1,29 @@
+diff -burNp eggdrop1.6.19/scripts/autobotchk eggdrop1.6.19.new/scripts/autobotchk
+--- eggdrop1.6.19/scripts/autobotchk	2003-04-15 19:41:57.000000000 +0200
++++ eggdrop1.6.19.new/scripts/autobotchk	2008-09-22 12:38:36.447797899 +0200
+@@ -99,7 +99,7 @@ set delay 10
+ set email 1
+ 
+ # If you renamed your eggdrop binary, you should change this variable
+-set binary "eggdrop"
++set binary "/usr/bin/eggdrop"
+ 
+ while {[set opt [newsplit argv]] != ""} {
+   switch -- $opt {
+@@ -143,16 +143,6 @@ if {[string match "*/scripts" $dir]} {
+ 
+ set dir [string trimright $dir /]
+ 
+-if {![file exists $dir/help] || ![file isdirectory $dir/help]} {
+-  puts "*** ERROR: are you sure you are running from a bot directory?"
+-  puts ""
+-  exit
+-} elseif {![file exists $dir/$binary]} {
+-  puts "*** ERROR: are you sure you are running from a bot directory?"
+-  puts ""
+-  exit
+-}
+-
+ puts -nonewline "Opening '$config' for processing ... "
+ 
+ if {[catch {open $dir/$config r} fd]} {
