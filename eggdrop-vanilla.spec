@@ -34,11 +34,12 @@ privileged users and let them gain ops, etc. Eggdrop also contains
 many modules and scripts, for example for sending files.
 
 %description -l pl.UTF-8
-Eggdrop jest IRCowym botem napisanym w C. Eggdrop, będąc botem jest na
-kanale i zajmuje się jego ochroną: zabezpieczeniem przed przejęciem,
-nadawaniem odpowiednich przywilejów zarejestrowanym użytkownikom,
-pilnowanie tzw. banów itp. Eggdrop poza tymi funkcjami posiada także
-wiele dodatków, jak przesyłanie plików czy inne skrypty dla rozrywki.
+Eggdrop jest IRCowym botem napisanym w C. Eggdrop, będąc botem jest
+na kanale i zajmuje się jego ochroną: zabezpieczeniem przed
+przejęciem, nadawaniem odpowiednich przywilejów zarejestrowanym
+użytkownikom, pilnowanie tzw. banów itp. Eggdrop poza tymi funkcjami
+posiada także wiele dodatków, jak przesyłanie plików czy inne
+skrypty dla rozrywki.
 
 %prep
 %setup -q -n %{_name}%{version}
@@ -78,7 +79,7 @@ install -d $RPM_BUILD_ROOT{%{_bindir},%{_libdir}/%{_name}/modules,%{_mandir}/man
 mv $RPM_BUILD_ROOT/%{_name}-%{version} $RPM_BUILD_ROOT%{_bindir}/%{_name}
 mv -f $RPM_BUILD_ROOT{/{text/*,help,scripts,language},%{_datadir}/%{_name}/}
 mv -f $RPM_BUILD_ROOT/modules/* $RPM_BUILD_ROOT%{_libdir}/%{_name}/modules/
-mv -f $RPM_BUILD_ROOT{/doc,%{_mandir}}/man1/%{_name}.1 
+mv -f $RPM_BUILD_ROOT{/doc,%{_mandir}}/man1/%{_name}.1
 rm -rf $RPM_BUILD_ROOT/{doc,README,logs}
 
 rm -rf docs
